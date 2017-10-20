@@ -1,7 +1,7 @@
 {
   "name": "cookie-editor",
   "description": "An element to edit cookie details",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "license": "Apache-2.0 OR CC-BY-4.0",
   "authors": [
     "The Advanced REST client authors <arc@mulesoft.com>"
@@ -25,8 +25,7 @@
     "paper-input": "PolymerElements/paper-input#<2",
     "paper-button": "PolymerElements/paper-button#<2",
     "paper-toggle-button": "PolymerElements/paper-toggle-button#<2",
-    "iron-form": "PolymerElements/iron-form#<2",
-    "datetime-picker": "fooloomanzoo/datetime-picker#2.4.4"
+    "iron-form": "PolymerElements/iron-form#<2"
   },
   "devDependencies": {
     "iron-component-page": "polymerelements/iron-component-page#1.0.0",
