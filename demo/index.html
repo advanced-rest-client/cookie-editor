@@ -1,44 +1,91 @@
 <!doctype html>
-<!--
-@license
-Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
 <html>
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
-
   <title>cookie-editor demo</title>
-
-  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
-
+  <script src="../../webcomponentsjs/webcomponents-loader.js"></script>
+  <link rel="import" href="../../shadycss/apply-shim.html">
+  <link rel="import" href="../../polymer/lib/elements/custom-style.html">
+  <link rel="import" href="../../polymer/lib/elements/dom-bind.html">
   <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
   <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
-
+  <link rel="import" href="../../arc-electron-default-theme/arc-electron-default-theme.html">
+  <link rel="import" href="../../arc-data-generator/arc-data-generator.html">
   <link rel="import" href="../cookie-editor.html">
-
-  <style is="custom-style" include="demo-pages-shared-styles">
-
+  <style>
+  body,
+  html {
+    background-color: #e5e5e5 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  </style>
+  <custom-style>
+    <style is="custom-style" include="demo-pages-shared-styles">
     .vertical-section-container {
       max-width: 600px;
     }
 
-  </style>
+    h2 {
+      @apply --paper-font-title;
+    }
+
+    .card {
+      @apply --shadow-elevation-4dp;
+      padding: 20px;
+      margin-top: 20px;
+      margin-bottom: 20px;
+      box-sizing: border-box;
+      background-color: #fff;
+    }
+    </style>
+  </custom-style>
 </head>
 <body unresolved>
-  <div class="vertical-section-container centered">
-    <h3>The `cookie-editor`</h3>
-    <demo-snippet>
-      <template>
-        <cookie-editor></cookie-editor>
+  <dom-bind id="app">
+    <template>
+      <section class="vertical-section-container centered card" role="main">
+        <cookie-editor cookie="[[cookie]]" on-save-cookie="_save" on-cancel-cookie-edit="_cancel"></cookie-editor>
+      </section>
+
+      <template is="dom-if" if="[[savedCookie]]">
+        <section class="vertical-section-container centered card">
+          <h2>Cookie value</h2>
+          <p>name: [[savedCookie.name]]</p>
+          <p>value: [[savedCookie.value]]</p>
+          <p>domain: [[savedCookie.domain]]</p>
+          <p>path: [[savedCookie.path]]</p>
+          <p>expires: [[savedCookie.expires]]</p>
+          <p>hostOnly: [[savedCookie.hostOnly]]</p>
+          <p>httpOnly: [[savedCookie.httpOnly]]</p>
+          <p>secure: [[savedCookie.secure]]</p>
+          <p>session: [[savedCookie.session]]</p>
+        </section>
       </template>
-    </demo-snippet>
-  </div>
+    </template>
+  </dom-bind>
+  <script>
+  /* global DataGenerator */
+  (function(app) {
+    app.generateData = function() {
+      const data = DataGenerator.generateCookiesData({
+        size: 1
+      });
+      app.cookie = data[0];
+    };
+
+    app._save = (e) => {
+      app.savedCookie = e.detail;
+    };
+
+    app._cancel = () => {
+      app.savedCookie = undefined;
+    };
+
+    app.generateData();
+  })(document.getElementById('app'));
+  </script>
 </body>
 </html>
