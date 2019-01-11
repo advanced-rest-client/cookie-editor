@@ -1,3 +1,9 @@
+<a name="2.0.0"></a>
+# [2.0.0](https://github.com/advanced-rest-client/cookie-editor/compare/0.1.2...2.0.0) (2019-01-11)
+
+
+
+
 <a name="0.1.3"></a>
 ## [0.1.3](https://github.com/advanced-rest-client/cookie-editor/compare/0.1.2...0.1.3) (2017-10-20)
 
