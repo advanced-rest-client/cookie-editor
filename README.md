@@ -1,33 +1,26 @@
-[![Build Status](https://travis-ci.org/advanced-rest-client/cookie-editor.svg?branch=stage)](https://travis-ci.org/advanced-rest-client/cookie-editor)  
+[![Build Status](https://travis-ci.org/advanced-rest-client/api-url-data-model.svg?branch=stage)](https://travis-ci.org/advanced-rest-client/cookie-editor)
+
+[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/advanced-rest-client/cookie-editor)
 
 # cookie-editor
 
-`<cookie-editor>` An element to edit cookie details
+An element to edit cookie details
 
-### Example
+<!---
 ```
+<custom-element-demo>
+  <template>
+    <link rel="import" href="cookie-editor.html">
+    <next-code-block></next-code-block>
+  </template>
+</custom-element-demo>
+```
+-->
+
+```html
 <cookie-editor></cookie-editor>
 ```
 
-### Styling
-`<cookie-editor>` provides the following custom properties and mixins for styling:
+### API components
 
-Custom property | Description | Default
-----------------|-------------|----------
-`--cookie-editor` | Mixin applied to the element | `{}`
-
-
-
-### Events
-| Name | Description | Params |
-| --- | --- | --- |
-| cancel-cookie-edit | Fired when edit was cancelled. | __none__ |
-| save-cookie | Fired when a cookie should be saved.  The event does not bubble. | name **String** -  |
-value **String** -  |
-domain **String** -  |
-path **String** -  |
-expires **Number** -  |
-hostOnly **Boolean** -  |
-httpOnly **Boolean** -  |
-secure **Boolean** -  |
-session **Boolean** -  |
+This components is a part of API components ecosystem: https://elements.advancedrestclient.com/
