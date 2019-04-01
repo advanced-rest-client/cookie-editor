@@ -12,7 +12,9 @@
   "version": "3.0.0-preview.1",
   "license": "Apache-2.0",
   "devDependencies": {
-    "@polymer/gen-typescript-declarations": "^1.6.0",
+    "@advanced-rest-client/arc-data-generator": "^3.0.0-preview.1",
+    "@advanced-rest-client/arc-electron-default-theme": "^3.0.0-preview.2",
+    "@polymer/gen-typescript-declarations": "^1.6.1",
     "@polymer/iron-component-page": "^4.0.0",
     "@polymer/iron-demo-helpers": "^3.0.0",
     "@polymer/iron-test-helpers": "^3.0.0",
@@ -43,12 +45,11 @@
     "The Advanced REST client authors <arc@mulesoft.com>"
   ],
   "dependencies": {
-    "@polymer/polymer": "^3.0.0",
+    "@polymer/iron-form": "^3.0.0",
     "@polymer/iron-resizable-behavior": "^3.0.0",
-    "@polymer/iron-flex-layout": "^3.0.0",
-    "@polymer/paper-input": "^3.0.0",
     "@polymer/paper-button": "^3.0.0",
+    "@polymer/paper-input": "^3.0.0",
     "@polymer/paper-toggle-button": "^3.0.0",
-    "@polymer/iron-form": "^3.0.0"
+    "@polymer/polymer": "^3.0.0"
   }
 }

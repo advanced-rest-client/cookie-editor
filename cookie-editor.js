@@ -11,18 +11,16 @@ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 License for the specific language governing permissions and limitations under
 the License.
 */
-import { PolymerElement } from '../../@polymer/polymer/polymer-element.js';
-
-import { mixinBehaviors } from '../../@polymer/polymer/lib/legacy/class.js';
+import {PolymerElement} from '../../@polymer/polymer/polymer-element.js';
+import {mixinBehaviors} from '../../@polymer/polymer/lib/legacy/class.js';
+import {IronResizableBehavior} from '../../@polymer/iron-resizable-behavior/iron-resizable-behavior.js';
+import {html} from '../../@polymer/polymer/lib/utils/html-tag.js';
 import '../../@polymer/polymer/lib/utils/render-status.js';
 import '../../@polymer/paper-toggle-button/paper-toggle-button.js';
-import { IronResizableBehavior } from '../../@polymer/iron-resizable-behavior/iron-resizable-behavior.js';
-import '../../@polymer/iron-flex-layout/iron-flex-layout.js';
 import '../../@polymer/paper-input/paper-input.js';
 import '../../@polymer/paper-button/paper-button.js';
 import '../../@polymer/iron-form/iron-form.js';
 import '../../@polymer/paper-toggle-button/paper-toggle-button.js';
-import { html } from '../../@polymer/polymer/lib/utils/html-tag.js';
 /**
  * `<cookie-editor>` An element to edit cookie details
  *
@@ -38,14 +36,20 @@ import { html } from '../../@polymer/polymer/lib/utils/html-tag.js';
  *
  * Custom property | Description | Default
  * ----------------|-------------|----------
- * `--cookie-editor` | Mixin applied to the element | `{}`
- * `--cookie-editor-actions` | Mixin applied to actions conatiner | `{}`
- * `--cookie-editor-action-buttons` | Mixin applied to action buttons | `{}`
+ * `--arc-font-body1-font-size` | Theme property, body font size | ``
+ * `--arc-font-body1-font-weight` | Theme property, body from weight | ``
+ * `--arc-font-body1-line-height` | Theme property, body line height | ``
+ * `--arc-font-headline-font-size` | Theme property, headline font size | ``
+ * `--arc-font-headline-font-weight` | Theme property, headline from weight | ``
+ * `--arc-font-headline-line-height` | Theme property, headline line height | ``
+ * `--arc-font-headline-letter-spacing` | Theme property, headline letter spacing | ``
+ * `--primary-color` | Theme property, button color or action button background color | ``
+ * `--primary-action-color` | Theme property, action button color | `#fff`
  *
  * @polymer
  * @customElement
  * @memberof UiElements
- * @appliesMixin Polymer.IronResizableBehavior
+ * @polymerBehavior IronResizableBehavior
  */
 class CookieEditor extends
   mixinBehaviors([IronResizableBehavior], PolymerElement) {
@@ -55,8 +59,9 @@ class CookieEditor extends
     :host {
       display: block;
       outline: none;
-      @apply --arc-font-body1;
-      @apply --cookie-editor;
+      font-size: var(--arc-font-body1-font-size);
+      font-weight: var(--arc-font-body1-font-weight);
+      line-height: var(--arc-font-body1-line-height);
     }
 
     form {
@@ -64,35 +69,64 @@ class CookieEditor extends
     }
 
     h2 {
-      @apply --arc-font-headline;
+      font-size: var(--arc-font-headline-font-size);
+      font-weight: var(--arc-font-headline-font-weight);
+      letter-spacing: var(--arc-font-headline-letter-spacing);
+      line-height: var(--arc-font-headline-line-height);
     }
 
     .actions {
-      @apply --layout-horizontal;
-      @apply --layout-end-justified;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
       margin-top: 20px;
-      @apply --cookie-editor-actions;
     }
 
     .actions paper-button {
       color: var(--primary-color);
       padding-left: 12px;
       padding-right: 12px;
-      @apply --cookie-editor-action-buttons;
     }
 
     .actions paper-button.action-button {
-      @apply --action-button;
+      background-color: var(--primary-color);
+      color: var(--primary-action-color, #fff);
     }
     </style>
     <h2>Edit cookie</h2>
     <iron-form id="form" on-iron-form-presubmit="_formSubmit">
       <form method="post">
-        <paper-input label="Cookie name (required)" id="cname" name="name" required="" auto-validate="" error-message="Name is required"></paper-input>
-        <paper-input label="Value" name="value" id="cvalue"></paper-input>
-        <paper-input label="Domain (required)" id="cdomain" required="" auto-validate="" error-message="Domain is required" name="domain"></paper-input>
-        <paper-input label="Path (required)" id="cpath" name="path" required="" auto-validate="" error-message="Path is required"></paper-input>
-        <paper-input id="cexpires" type="datetime-local" name="expires" label="Expires" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}" auto-validate=""></paper-input>
+        <paper-input
+          label="Cookie name (required)"
+          id="cname"
+          name="name"
+          required=""
+          auto-validate=""
+          error-message="Name is required"></paper-input>
+        <paper-input
+          label="Value"
+          name="value"
+          id="cvalue"></paper-input>
+        <paper-input
+          label="Domain (required)"
+          id="cdomain"
+          required=""
+          auto-validate=""
+          error-message="Domain is required"
+          name="domain"></paper-input>
+        <paper-input
+          label="Path (required)"
+          id="cpath"
+          name="path"
+          required=""
+          auto-validate=""
+          error-message="Path is required"></paper-input>
+        <paper-input
+          id="cexpires"
+          type="datetime-local"
+          name="expires"
+          label="Expires"
+          pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}" auto-validate=""></paper-input>
         <paper-toggle-button name="hostOnly" id="chostOnly">Host only</paper-toggle-button>
         <paper-toggle-button name="httpOnly" id="chttpOnly">HTTP only</paper-toggle-button>
         <paper-toggle-button name="secure" id="csecure">Secure</paper-toggle-button>
@@ -106,7 +140,6 @@ class CookieEditor extends
 `;
   }
 
-  static get is() {return 'cookie-editor';}
   static get properties() {
     return {
       /**
@@ -279,4 +312,4 @@ class CookieEditor extends
    * @event cancel-cookie-edit
    */
 }
-window.customElements.define(CookieEditor.is, CookieEditor);
+window.customElements.define('cookie-editor', CookieEditor);

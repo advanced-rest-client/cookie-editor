@@ -3,10 +3,13 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+
     <script src="../../../@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
-    <script src="../../../wct-browser-legacy/browser.js"></script>
-    <script src="../../../@polymer/iron-test-helpers/mock-interactions.js" type="module"></script>
-    <script type="module" src="../cookie-editor.js"></script>
+    <script src="../../../@polymer/test-fixture/test-fixture.js"></script>
+    <script src="../../../mocha/mocha.js"></script>
+    <script src="../../../chai/chai.js"></script>
+    <script src="../../../wct-mocha/wct-mocha.js"></script>
+
   </head>
   <body>
 
@@ -18,7 +21,8 @@
 
     <script type="module">
     import '../cookie-editor.js';
-    /* global MockInteractions */
+    import * as MockInteractions from '../../../@polymer/iron-test-helpers/mock-interactions.js';
+    import sinon from '../../../sinon/pkg/sinon-esm.js';
     suite('Empty editor', function() {
       const name = 'test-name';
       const value = 'test-value';
