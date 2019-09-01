@@ -26,3 +26,7 @@
 
 
 
+# [3.0.0](https://github.com/advanced-rest-client/cookie-editor/compare/0.1.2...3.0.0) (2019-09-01)
+
+
+
