@@ -11,16 +11,12 @@ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 License for the specific language governing permissions and limitations under
 the License.
 */
-import {PolymerElement} from '../../@polymer/polymer/polymer-element.js';
-import {mixinBehaviors} from '../../@polymer/polymer/lib/legacy/class.js';
-import {IronResizableBehavior} from '../../@polymer/iron-resizable-behavior/iron-resizable-behavior.js';
-import {html} from '../../@polymer/polymer/lib/utils/html-tag.js';
-import '../../@polymer/polymer/lib/utils/render-status.js';
-import '../../@polymer/paper-toggle-button/paper-toggle-button.js';
-import '../../@polymer/paper-input/paper-input.js';
-import '../../@polymer/paper-button/paper-button.js';
-import '../../@polymer/iron-form/iron-form.js';
-import '../../@polymer/paper-toggle-button/paper-toggle-button.js';
+import { html, css, LitElement } from 'lit-element';
+import { ArcResizableMixin } from '@advanced-rest-client/arc-resizable-mixin/arc-resizable-mixin.js';
+import '@anypoint-web-components/anypoint-checkbox/anypoint-checkbox.js';
+import '@anypoint-web-components/anypoint-input/anypoint-input.js';
+import '@anypoint-web-components/anypoint-button/anypoint-button.js';
+import '@polymer/iron-form/iron-form.js';
 /**
  * `<cookie-editor>` An element to edit cookie details
  *
@@ -51,12 +47,9 @@ import '../../@polymer/paper-toggle-button/paper-toggle-button.js';
  * @memberof UiElements
  * @polymerBehavior IronResizableBehavior
  */
-class CookieEditor extends
-  mixinBehaviors([IronResizableBehavior], PolymerElement) {
-  static get template() {
-    return html`
-    <style>
-    :host {
+class CookieEditor extends ArcResizableMixin(LitElement) {
+  static get styles() {
+    return css`:host {
       display: block;
       outline: none;
       font-size: var(--arc-font-body1-font-size);
@@ -75,6 +68,14 @@ class CookieEditor extends
       line-height: var(--arc-font-headline-line-height);
     }
 
+    anypoint-input {
+      width: 100%;
+    }
+
+    anypoint-checkbox {
+      display: block;
+    }
+
     .actions {
       display: flex;
       flex-direction: row;
@@ -83,61 +84,134 @@ class CookieEditor extends
     }
 
     .actions paper-button {
-      color: var(--primary-color);
       padding-left: 12px;
       padding-right: 12px;
-    }
+    }`;
+  }
 
-    .actions paper-button.action-button {
-      background-color: var(--primary-color);
-      color: var(--primary-action-color, #fff);
-    }
-    </style>
+  render() {
+    const {
+      compatibility,
+      outlined,
+      readOnly,
+      _cname,
+      _cvalue,
+      _cdomain,
+      _cpath,
+      _cexpires,
+      _chostOnly,
+      _chttpOnly,
+      _csecure,
+      _csession
+    } = this;
+    return html`
     <h2>Edit cookie</h2>
-    <iron-form id="form" on-iron-form-presubmit="_formSubmit">
+    <iron-form id="form" @iron-form-presubmit="${this._formSubmit}">
       <form method="post">
-        <paper-input
-          label="Cookie name (required)"
+        <anypoint-input
           id="cname"
           name="name"
-          required=""
-          auto-validate=""
-          error-message="Name is required"></paper-input>
-        <paper-input
-          label="Value"
+          required
+          autovalidate
+          invalidmessage="Name is required"
+          .value="${_cname}"
+          ?readonly="${readOnly}"
+          ?compatibility="${compatibility}"
+          ?outlined="${outlined}"
+          @value-changed="${this._valueHandler}">
+          <label slot="label">Cookie name (required)</label>
+        </anypoint-input>
+        <anypoint-input
           name="value"
-          id="cvalue"></paper-input>
-        <paper-input
-          label="Domain (required)"
+          id="cvalue"
+          .value="${_cvalue}"
+          ?readonly="${readOnly}"
+          ?compatibility="${compatibility}"
+          ?outlined="${outlined}"
+          @value-changed="${this._valueHandler}">
+          <label slot="label">Value</label>
+        </anypoint-input>
+        <anypoint-input
           id="cdomain"
-          required=""
-          auto-validate=""
-          error-message="Domain is required"
-          name="domain"></paper-input>
-        <paper-input
-          label="Path (required)"
+          required
+          autovalidate
+          invalidmessage="Domain is required"
+          name="domain"
+          .value="${_cdomain}"
+          ?readonly="${readOnly}"
+          ?compatibility="${compatibility}"
+          ?outlined="${outlined}"
+          @value-changed="${this._valueHandler}">
+          <label slot="label">Domain (required)</label>
+        </anypoint-input>
+        <anypoint-input
           id="cpath"
           name="path"
-          required=""
-          auto-validate=""
-          error-message="Path is required"></paper-input>
-        <paper-input
+          required
+          autovalidate
+          invalidmessage="Path is required"
+          .value="${_cpath}"
+          ?readonly="${readOnly}"
+          ?compatibility="${compatibility}"
+          ?outlined="${outlined}"
+          @value-changed="${this._valueHandler}">
+          <label slot="label">Path (required)</label>
+        </anypoint-input>
+        <anypoint-input
           id="cexpires"
           type="datetime-local"
           name="expires"
-          label="Expires"
-          pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}" auto-validate=""></paper-input>
-        <paper-toggle-button name="hostOnly" id="chostOnly">Host only</paper-toggle-button>
-        <paper-toggle-button name="httpOnly" id="chttpOnly">HTTP only</paper-toggle-button>
-        <paper-toggle-button name="secure" id="csecure">Secure</paper-toggle-button>
-        <paper-toggle-button name="session" id="csession">Session</paper-toggle-button>
+          pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}"
+          autovalidate
+          .value="${_cexpires}"
+          ?readonly="${readOnly}"
+          ?compatibility="${compatibility}"
+          ?outlined="${outlined}"
+          @value-changed="${this._valueHandler}">
+          <label slot="label">Expires</label>
+        </anypoint-input>
+        <anypoint-checkbox
+          name="hostOnly"
+          id="chostOnly"
+          .checked="${_chostOnly}"
+          ?disabled="${readOnly}"
+          ?compatibility="${compatibility}"
+          @checked-changed="${this._checkedHandler}">Host only</anypoint-checkbox>
+        <anypoint-checkbox
+          name="httpOnly"
+          id="chttpOnly"
+          .checked="${_chttpOnly}"
+          ?disabled="${readOnly}"
+          ?compatibility="${compatibility}"
+          @checked-changed="${this._checkedHandler}">HTTP only</anypoint-checkbox>
+        <anypoint-checkbox
+          name="secure" id="csecure"
+          .checked="${_csecure}"
+          ?disabled="${readOnly}"
+          ?compatibility="${compatibility}"
+          @checked-changed="${this._checkedHandler}">Secure</anypoint-checkbox>
+        <anypoint-checkbox
+          name="session"
+          id="csession"
+          .checked="${_csession}"
+          ?disabled="${readOnly}"
+          ?compatibility="${compatibility}"
+          @checked-changed="${this._checkedHandler}">Session</anypoint-checkbox>
       </form>
     </iron-form>
     <div class="actions">
-      <paper-button on-click="_cancel" data-action="cancel-action">cancel</paper-button>
-      <paper-button on-click="_save" data-action="save-action" class="action-button">Save</paper-button>
-    </div>
-`;
+      <anypoint-button
+        @click="${this._cancel}"
+        ?readonly="${readOnly}"
+        ?compatibility="${compatibility}"
+        data-action="cancel-action">Cancel</anypoint-button>
+      <anypoint-button
+        @click="${this._save}"
+        data-action="save-action"
+        ?readonly="${readOnly}"
+        ?compatibility="${compatibility}"
+        class="action-button">Save</anypoint-button>
+    </div>`;
   }
 
   static get properties() {
@@ -147,68 +221,95 @@ class CookieEditor extends
        * Values of this propertue will not going to be changed.
        * All new values are sent only in the `save-cookie` event
        */
-      cookie: {
-        type: Object,
-        observer: '_cookieChanged'
-      }
+      cookie: { type: Object },
+      /**
+       * When set the editor is in read only mode.
+       */
+      readOnly: { type: Boolean },
+      /**
+       * Enables outlined theme.
+       */
+      outlined: { type: Boolean, reflect: true },
+      /**
+       * Enables compatibility with Anypoint components.
+       */
+      compatibility: { type: Boolean, reflect: true },
+
+      _cname: { type: String },
+      _cvalue: { type: String },
+      _cdomain: { type: String },
+      _cpath: { type: String },
+      _cexpires: { type: String },
+      _chostOnly: { type: Boolean },
+      _chttpOnly: { type: Boolean },
+      _csecure: { type: Boolean },
+      _csession: { type: Boolean }
     };
   }
 
-  connectedCallback() {
-    super.connectedCallback();
-    this._ensureAttribute('tabindex', -1);
-    this._ensureAttribute('role', 'dialog');
+  get form() {
+    return this.shadowRoot.querySelector('iron-form');
   }
 
-  // Resets state of the UI controls
-  _resetValues() {
-    this.$.cname.value = '';
-    this.$.cvalue.value = '';
-    this.$.cdomain.value = '';
-    this.$.cpath.value = '';
-    this.$.cexpires.value = '';
-    this.$.chostOnly.checked = false;
-    this.$.chttpOnly.checked = false;
-    this.$.csecure.checked = false;
-    this.$.csession.checked = false;
+  get cookie() {
+    return this._cookie;
+  }
+
+  set cookie(value) {
+    const old = this._cookie;
+    /* istanbul ignore if */
+    if (old === value) {
+      return;
+    }
+    this._cookie = value;
+    this._cookieChanged(value);
+  }
+
+  connectedCallback() {
+    if (super.connectedCallback) {
+      super.connectedCallback();
+    }
+    if (!this.hasAttribute('tabindex')) {
+      this.setAttribute('tabindex', '-1');
+    }
+    if (!this.hasAttribute('role')) {
+      this.setAttribute('role', 'dialog');
+    }
   }
   /**
    * Updates state of the UI constrols depending on existing cookie value
    * @param {Object} value Cookie to render
    */
   _cookieChanged(value) {
-    this._resetValues();
     if (!value) {
-      return;
+      value = {};
     }
-    this.$.cname.value = value.name || '';
-    this.$.cvalue.value = value.value || '';
-    this.$.cdomain.value = value.domain || '';
-    this.$.cpath.value = value.path || '';
-    this.$.chostOnly.checked = value.hostOnly === true ? true : false;
-    this.$.chttpOnly.checked = value.httpOnly === true ? true : false;
-    this.$.csecure.checked = value.secure === true ? true : false;
-    this.$.csession.checked = value.session === true ? true : false;
+    this._cname = value.name || '';
+    this._cvalue = value.value || '';
+    this._cdomain = value.domain || '';
+    this._cpath = value.path || '';
+    this._chostOnly = value.hostOnly === true ? true : false;
+    this._chttpOnly = value.httpOnly === true ? true : false;
+    this._csecure = value.secure === true ? true : false;
+    this._csession = value.session === true ? true : false;
     const exp = this._convertTime(value.expires);
-    this.$.cexpires.value = exp || '';
+    this._cexpires = exp || '';
   }
 
   /**
    * Sends the `cancel-cookie-edit` custom event to cancel the edit.
    */
   _cancel() {
-    this.dispatchEvent(new CustomEvent('cancel-cookie-edit', {
-      composed: true
-    }));
+    this.dispatchEvent(new CustomEvent('cancel'));
   }
   /**
    * Sets `override` to `false` and sends the form.
    */
   _save() {
-    if (!this.$.form.validate()) {
+    if (!this.form.validate()) {
       return;
     }
-    this.$.form.submit();
+    this.form.submit();
   }
 
   /**
@@ -218,7 +319,7 @@ class CookieEditor extends
    */
   _formSubmit(e) {
     e.preventDefault();
-    const values = this.$.form.serializeForm();
+    const values = this.form.serializeForm();
     if (!('hostOnly' in values)) {
       values.hostOnly = false;
     } else {
@@ -246,8 +347,7 @@ class CookieEditor extends
     } else {
       values.expires = d.getTime();
     }
-    this.dispatchEvent(new CustomEvent('save-cookie', {
-      composed: true,
+    this.dispatchEvent(new CustomEvent('save', {
       detail: values
     }));
   }
@@ -288,6 +388,11 @@ class CookieEditor extends
     }
     result += m;
     return result;
+  }
+
+  _valueHandler(e) {
+    const cpath = `_${e.target.id}`;
+    this[cpath] = e.detail.value;
   }
   /**
    * Fired when a cookie should be saved.
